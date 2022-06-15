@@ -1,29 +1,30 @@
 {
-  "name": "easyconfigjs",
+  "name": "easyconfig-ts",
   "version": "1.0.0",
-  "description": "Simple configuration setup utility for TypeScript and JavaScript",
-  "main": "index.js",
+  "description": "Simple configuration setup utility for TypeScript and JavaScript. Depends on dotenv",
+  "main": "dist/easyconfig.js",
   "scripts": {
-    "test": "npm run tests"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adamhb123/EasyConfigJS.git"
+    "url": "git+https://github.com/adamhb123/EasyConfig-TS.git"
   },
   "keywords": [
     "typescript",
     "javascript",
     "configuration",
+    "dotenv",
     "easyconfig",
-    "easyconfigjs",
-    "easyconfigts"
+    "easyconfig-js",
+    "easyconfi-gts"
   ],
   "author": "Adam Brewer",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/adamhb123/EasyConfigJS/issues"
+    "url": "https://github.com/adamhb123/EasyConfig-TS/issues"
   },
-  "homepage": "https://github.com/adamhb123/EasyConfigJS#readme",
+  "homepage": "https://github.com/adamhb123/EasyConfig-TS#readme",
   "dependencies": {
     "dotenv": "^16.0.1"
   }

@@ -34,17 +34,22 @@ export const Dotenv = (
    * @returns void
    */
   let chosenPath: string | undefined;
-  const asString = (typeof dotFiles === "string"
-    ? dotFiles
-    : typeof dotFiles !== "string" &&
-      Object.prototype.hasOwnProperty.call(dotFiles, "priority")
-    ? (<PrioritizedDotFile[]>dotFiles)
-        .sort((a, b) => (a.priority < b.priority ? 1 : -1)) // Sort by priority (descending)
-        .map((dotFile) => dotFile.path)
-    : null
-  )
-  if(!asString) throw new InvalidArgumentError(("Invalid values provided to argument: ...dotFiles"));
-  const dotFilePaths = asString.map((dotFilePath) => join(rootDotFilePath, dotFilePath)); // Map to proper paths
+  const asString =
+    typeof dotFiles === "string"
+      ? dotFiles
+      : typeof dotFiles !== "string" &&
+        Object.prototype.hasOwnProperty.call(dotFiles, "priority")
+      ? (<PrioritizedDotFile[]>dotFiles)
+          .sort((a, b) => (a.priority < b.priority ? 1 : -1)) // Sort by priority (descending)
+          .map((dotFile) => dotFile.path)
+      : null;
+  if (!asString)
+    throw new InvalidArgumentError(
+      "Invalid values provided to argument: ...dotFiles"
+    );
+  const dotFilePaths = asString.map((dotFilePath) =>
+    join(rootDotFilePath, dotFilePath)
+  ); // Map to proper paths
   for (const dotFilePath of dotFilePaths) {
     if (fs.existsSync(dotFilePath)) {
       chosenPath = dotFilePath;
