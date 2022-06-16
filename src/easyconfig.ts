@@ -4,6 +4,17 @@ import fs from "fs";
 import _Dotenv from "dotenv";
 import { InvalidArgumentError } from "./errorhandler";
 
+/**
+ * Alternative method of prioritizing dot file loading.
+ *
+ * Where as a list of strings will be prioritized in sequence as given,
+ * A list of objects conforming to the PrioritizedDotFile interface will
+ * be prioritized as defined by their priority property.
+ *
+ * @param path: string - the dot file path,
+ * @param priority: number - the priority of the dot file, assessed in
+ * ascending (least to greatest) order
+ */
 interface PrioritizedDotFile {
   path: string;
   priority: number;
@@ -18,37 +29,40 @@ function log(text: string, type?: LogType, quiet?: boolean) {
   if (!quiet) (type === LogType.Warn ? console.warn : console.error)(text);
 }
 
+/**
+ * @param rootPath - The root path to search for dot files from.
+ * @param terminal - Whether to throw
+ * @param quiet - Whether to log to console or not
+ * @param dotFiles - rest parameter consisting they are provided in
+ * order of priority. If a PrioritizedDotFile[] is provided, then the
+ * dot files will be assessed based on their given priority.
+ *
+ * @returns void
+ */
 export const Dotenv = (
-  rootDotFilePath: string,
-  terminal: boolean = false,
-  quiet: boolean = false,
+  rootPath: string,
+  terminal: boolean,
+  quiet: boolean,
   ...dotFiles: string[] | PrioritizedDotFile[]
 ) => {
-  /**
-   * @param rootDotFile - The root path to search for dot files from.
-   * @param dotFiles - Array of dotenv files to look for. If a String[] is provided, it is assumed
-   * @param silence - Whether to log to console or not
-   * that they are provided in order of priority. If a PrioritizedDotFile[] is provided, then the dot files
-   * will be assessed based on their given priority.
-   *
-   * @returns void
-   */
   let chosenPath: string | undefined;
   const asString =
-    typeof dotFiles === "string"
-      ? dotFiles
-      : typeof dotFiles !== "string" &&
-        Object.prototype.hasOwnProperty.call(dotFiles, "priority")
+    typeof dotFiles[0] === "string"
+      ? <string[]>dotFiles
+      : typeof dotFiles[0] !== "string" &&
+        Object.prototype.hasOwnProperty.call(dotFiles[0], "priority")
       ? (<PrioritizedDotFile[]>dotFiles)
-          .sort((a, b) => (a.priority < b.priority ? 1 : -1)) // Sort by priority (descending)
+          // Sort by priority (descending)
+          .sort((a, b) => (a.priority < b.priority ? 1 : -1))
+          // Retrieve path from <PrioritizedDotFile>dotFile
           .map((dotFile) => dotFile.path)
       : null;
   if (!asString)
     throw new InvalidArgumentError(
-      "Invalid values provided to argument: ...dotFiles"
+      `Invalid values provided to rest parameter: ...dotFiles=${dotFiles}`
     );
   const dotFilePaths = asString.map((dotFilePath) =>
-    join(rootDotFilePath, dotFilePath)
+    join(rootPath, dotFilePath)
   ); // Map to proper paths
   for (const dotFilePath of dotFilePaths) {
     if (fs.existsSync(dotFilePath)) {
@@ -57,17 +71,20 @@ export const Dotenv = (
     }
   }
   if (!chosenPath) {
-    const errstr = `No .env or .env.local configurations found in root directory (${rootDotFilePath}) with given paths: ${dotFilePaths}`;
+    const errstr = `No .env or .env.local configurations found in root\
+     directory (${rootPath}) with paths: ${dotFilePaths} parsed from\
+     rest parameter: dotFiles=${dotFiles}`;
     if (terminal) {
       log(errstr, LogType.Error, quiet);
-      throw new Error(errstr);
+      throw new InvalidArgumentError(errstr);
     }
     log(
-      `${errstr}\nNot set to terminate (arg: terminal=${terminal})`,
+      `${errstr}\nNot set to terminate on failure (arg: terminal=${terminal})`,
       LogType.Warn,
       quiet
     );
-  } else _Dotenv.config({ path: chosenPath }); // Initialize dotenv with chosenPath
+  } // Initialize dotenv with chosenPath
+  else _Dotenv.config({ path: chosenPath });
 };
 
 export default Dotenv;
