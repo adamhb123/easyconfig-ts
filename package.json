@@ -1,6 +1,6 @@
 {
   "name": "easyconfig-ts",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Simple configuration setup utility for TypeScript and JavaScript. Depends on dotenv",
   "main": "dist/easyconfig.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "dotenv",
     "easyconfig",
     "easyconfig-js",
-    "easyconfi-gts"
+    "easyconfig-ts"
   ],
   "author": "Adam Brewer",
   "license": "ISC",
