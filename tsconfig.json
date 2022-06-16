@@ -9,5 +9,5 @@
     "declaration": true,
     "outDir": "dist/",
   },
-  "files": ["src/easyconfig.ts", "src/errorhandler.ts"]
+  "files": ["src/easyconfig.ts", "src/errorhandler.ts", "src/tests.ts"]
 }
