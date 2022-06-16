@@ -7,7 +7,11 @@
     "strict": true,
     "skipLibCheck": true,
     "declaration": true,
-    "outDir": "dist/",
+    "outDir": "dist/"
   },
-  "files": ["src/easyconfig.ts", "src/errorhandler.ts", "src/tests.ts"]
+  "files": [
+    "src/easyconfig.ts",
+    "src/errorhandler.ts",
+    "src/tests/tests.ts"
+  ]
 }

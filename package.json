@@ -4,7 +4,8 @@
   "description": "Simple configuration setup utility for TypeScript and JavaScript. Depends on dotenv",
   "main": "dist/easyconfig.js",
   "scripts": {
-    "build": "tsc"
+    "start": "npm run build && node dist/tests/tests.js",
+    "build": "tsc && copyfiles --up 2 src/**/*.env dist/tests/"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,8 @@
   "homepage": "https://github.com/adamhb123/EasyConfig-TS#readme",
   "dependencies": {
     "dotenv": "^16.0.1"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1"
   }
 }

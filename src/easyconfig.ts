@@ -1,7 +1,7 @@
 // External modules
 import { join } from "path";
 import fs from "fs";
-import _Dotenv from "dotenv";
+import Dotenv from "dotenv";
 import { InvalidArgumentError } from "./errorhandler";
 
 /**
@@ -15,7 +15,7 @@ import { InvalidArgumentError } from "./errorhandler";
  * @param priority: number - the priority of the dot file, assessed in
  * ascending (least to greatest) order
  */
-interface PrioritizedDotFile {
+export interface PrioritizedDotFile {
   path: string;
   priority: number;
 }
@@ -39,7 +39,7 @@ function log(text: string, type?: LogType, quiet?: boolean) {
  *
  * @returns void
  */
-export const Dotenv = (
+export const EasyConfig = (
   rootPath: string,
   terminal: boolean,
   quiet: boolean,
@@ -84,7 +84,7 @@ export const Dotenv = (
       quiet
     );
   } // Initialize dotenv with chosenPath
-  else _Dotenv.config({ path: chosenPath });
+  else Dotenv.config({ path: chosenPath });
 };
 
-export default Dotenv;
+export default EasyConfig;
