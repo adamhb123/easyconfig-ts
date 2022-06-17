@@ -30,22 +30,34 @@ function log(text: string, type?: LogType, quiet?: boolean) {
 }
 
 /**
- * @param rootPath - The root path to search for dot files from.
- * @param terminal - Whether to throw
- * @param quiet - Whether to log to console or not
- * @param dotFiles - rest parameter consisting they are provided in
- * order of priority. If a PrioritizedDotFile[] is provided, then the
- * dot files will be assessed based on their given priority.
- *
+ * Configuration options for EasyConfig.
+ * 
+ * @param dotFiles (required) Either a string[] or PrioritizedDotFile[]. If a
+ * string[], then they will be assessed in order of priority. If a
+ * PrioritizedDotFile[], then the dot files will be assessed based on
+ * their given priority.
+ * @param rootPath (optional)  The root path to search for dot files from.
+ * @param terminal (optional) Whether to throw
+ * @param quiet (optional) Whether to log to console or not
+ */
+interface EasyConfigOptions {
+  dotFiles: string[] | PrioritizedDotFile[];
+  rootPath?: string;
+  terminal?: boolean;
+  quiet?: boolean;
+}
+
+/**
  * @returns void
  */
 export const EasyConfig = (
-  rootPath: string,
-  terminal: boolean,
-  quiet: boolean,
-  ...dotFiles: string[] | PrioritizedDotFile[]
+  options: EasyConfigOptions,
 ) => {
   let chosenPath: string | undefined;
+  const rootPath = options.rootPath ?? __dirname;
+  const terminal = options.terminal ?? false;
+  const quiet = options.quiet ?? false;
+  const dotFiles = options.dotFiles;
   const asString =
     typeof dotFiles[0] === "string"
       ? <string[]>dotFiles

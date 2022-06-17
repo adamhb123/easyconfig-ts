@@ -76,14 +76,13 @@ export const testPrioritizedDotFileFunctionality = () => {
  * provided in the ...dotFiles: string[].
  */
 export const testStringArrayDotFileFunctionality = () => {
-  EasyConfig(
-    __dirname,
-    false,
-    false,
-    "./highestpriority.env",
-    "./midpriority.env",
-    "./lowestpriority.env"
-  );
+  EasyConfig({
+    dotFiles: [
+      "./highestpriority.env",
+      "./midpriority.env",
+      "./lowestpriority.env",
+    ],
+  });
   const result = logAndVerifyPriorityEnvVar(
     "testStringArrayDotFileFunctionality"
   );
@@ -103,9 +102,7 @@ export const runAllTests = () => {
         ? "All tests passed!"
         : `${failures.length} test${
             failures.length > 1 ? "s" : ""
-          } failed!\nFailed test${
-            failures.length > 1 ? "s" : ""
-          }:${failures}`
+          } failed!\nFailed test${failures.length > 1 ? "s" : ""}:${failures}`
     }`
   );
 };
