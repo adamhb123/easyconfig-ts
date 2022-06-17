@@ -32,17 +32,17 @@ function log(text: string, type?: LogType, quiet?: boolean) {
 /**
  * Configuration options for EasyConfig.
  * 
+ * @param rootPath (required)  The root path to search for dot files from.
  * @param dotFiles (required) Either a string[] or PrioritizedDotFile[]. If a
  * string[], then they will be assessed in order of priority. If a
  * PrioritizedDotFile[], then the dot files will be assessed based on
  * their given priority.
- * @param rootPath (optional)  The root path to search for dot files from.
  * @param terminal (optional) Whether to throw
  * @param quiet (optional) Whether to log to console or not
  */
-interface EasyConfigOptions {
+export interface EasyConfigOptions {
+  rootPath: string;
   dotFiles: string[] | PrioritizedDotFile[];
-  rootPath?: string;
   terminal?: boolean;
   quiet?: boolean;
 }
@@ -54,7 +54,7 @@ export const EasyConfig = (
   options: EasyConfigOptions,
 ) => {
   let chosenPath: string | undefined;
-  const rootPath = options.rootPath ?? __dirname;
+  const rootPath = options.rootPath;
   const terminal = options.terminal ?? false;
   const quiet = options.quiet ?? false;
   const dotFiles = options.dotFiles;

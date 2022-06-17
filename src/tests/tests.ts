@@ -1,4 +1,3 @@
-import { verify } from "crypto";
 import EasyConfig, { PrioritizedDotFile } from "../easyconfig";
 
 /**
@@ -61,7 +60,10 @@ export const testPrioritizedDotFileFunctionality = () => {
       priority: 2,
     }, // highest
   ];
-  EasyConfig(__dirname, false, false, ...prioritizedDotFileArray);
+  EasyConfig({
+    rootPath: __dirname,
+    dotFiles: prioritizedDotFileArray
+  });
   const result = logAndVerifyPriorityEnvVar(
     "testPrioritizedDotFileFunctionality"
   );
@@ -77,7 +79,8 @@ export const testPrioritizedDotFileFunctionality = () => {
  */
 export const testStringArrayDotFileFunctionality = () => {
   EasyConfig({
-    dotFiles: [
+    rootPath: __dirname,
+    dotFiles: [ 
       "./highestpriority.env",
       "./midpriority.env",
       "./lowestpriority.env",
@@ -87,7 +90,7 @@ export const testStringArrayDotFileFunctionality = () => {
     "testStringArrayDotFileFunctionality"
   );
   unsetPriorityEnvVar();
-  return true;
+  return result;
 };
 
 export const runAllTests = () => {
