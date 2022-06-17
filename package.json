@@ -1,6 +1,6 @@
 {
   "name": "easyconfig-ts",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "Simple configuration setup utility for TypeScript and JavaScript. Depends on dotenv",
   "main": "dist/easyconfig.js",
   "scripts": {
