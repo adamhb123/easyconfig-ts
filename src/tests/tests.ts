@@ -110,4 +110,10 @@ export const runAllTests = () => {
   );
 };
 
+export default {
+  testPrioritizedDotFileFunctionality,
+  testStringArrayDotFileFunctionality,
+  runAllTests
+}
+
 if (require.main === module) runAllTests();
